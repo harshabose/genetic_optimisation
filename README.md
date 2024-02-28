@@ -1,18 +1,15 @@
 # genetic_optimisation C++ header file
 **A versatile genetic optimisation tool for engineering design optimisation.**
 
-The motivation to create a custom genetic optimisation tool is that many public optimisation libraries, such as NLOPT, lack the ability to handle
-high number of optimisation variables and different data types, making them sub-optimal for engineering design optimisation.
+Introducing an adaptable genetic optimization tool tailored for engineering design optimization challenges. The need for a custom solution arises from the limitations of existing public optimization libraries, like NLOPT, which struggle when dealing with a high number of variables and diverse data types, making them less effective for engineering design optimization.
 
-This header file allows for practically limitless number of optimisation variables with different data type and supports unlimited linear and
-non-linear equality and inequality constraints, ideal for engineering design optimisation.
+My header file, located at [include/genetic_optimisation.h], overcomes these challenges. It empowers you with the ability to handle any number of optimization variables, each with different data types. Moreover, it seamlessly accommodates an unlimited number of linear and non-linear equality and inequality constraints – a perfect fit for engineering design optimization scenarios. The code was developed with rapid performance and low memory overhead in mind, allowing integration into wide range of projects.
 
-The header file is located at [include/genetic_optimisation.h](https://github.com/harshabose/genetic_optimisation/blob/main/include/genetic_optimisation.h). Just copy paste the file into your directory and include in your code. Simple as that.
+The implementation is user-friendly – just copy and paste the file into your project directory, and include it in your code.
 
-The tool was tested on several benchmark optimsation test functions including rastrigin function and ackley function and resulted in accurate converge within few thousand iterations with tolerance 0.00001.
-The tool was also tested on conceptual optimisation of propulsion system configuration and propeller design on eVTOL in climb. The results are as below.
+Our tool has undergone rigorous testing on various benchmark optimization test functions, including the Rastrigin and Ackley functions with accurate convergence achieved within a few hundred iterations, with a tolerance of 0.00001.
 
+Additionally, the tool has been applied to real-world engineering challenges - conceptual optimization tasks of propulsion system configuration and propeller design of eVTOL in climb segment. The outcomes are documented for your reference.
 
-
-To facilitate the above engineering design optimisation problem, several other tools were developed which heavily rely on public libraries and tools such as pybind11 and aerospacesandbox. So do not expect other files to work on your setup. 
+To perform the above mentioned engineering design optimization tests, several supporting tools were developed. Note that these auxiliary files heavily rely on popular public libraries and tools like python, pybind11 and aerospacesandbox. As a result, compatibility may vary depending on your setup.
 
