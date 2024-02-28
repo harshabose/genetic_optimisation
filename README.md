@@ -13,3 +13,5 @@ Additionally, the tool has been applied to real-world engineering challenges - c
 
 To perform the above mentioned engineering design optimization tests, several supporting tools were developed. Note that these auxiliary files heavily rely on popular public libraries and tools like python, pybind11 and aerospacesandbox. As a result, compatibility may vary depending on your setup.
 
+In future version, I will be integrateing my [lightweight C++ thread manager](https://github.com/harshabose/thread_manager) tool to genetic optimisation allowing even more performance and speed.
+
