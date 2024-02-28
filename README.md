@@ -7,7 +7,7 @@ My header file, located at [include/genetic_optimisation.h](https://github.com/h
 
 The implementation is user-friendly – just copy and paste the file into your project directory, and include it in your code.
 
-Our tool has undergone rigorous testing on various benchmark optimization test functions, including the Rastrigin and Ackley functions with accurate convergence achieved within a few hundred iterations, with a tolerance of 0.00001.
+The tool has undergone rigorous testing on various benchmark optimization test functions, including the Rastrigin and Ackley functions with accurate convergence achieved within a few hundred iterations, with a tolerance of 0.00001.
 
 Additionally, the tool has been applied to real-world engineering challenges - conceptual optimization tasks of propulsion system configuration and propeller design of eVTOL in climb segment. The outcomes are documented for your reference.
 
