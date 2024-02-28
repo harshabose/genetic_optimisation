@@ -3,7 +3,7 @@
 
 Introducing an adaptable genetic optimization tool tailored for engineering design optimization challenges. The need for a custom solution arises from the limitations of existing public optimization libraries, like NLOPT, which struggle when dealing with a high number of variables and diverse data types, making them less effective for engineering design optimization.
 
-My header file, located at [include/genetic_optimisation.h], overcomes these challenges. It empowers you with the ability to handle any number of optimization variables, each with different data types. Moreover, it seamlessly accommodates an unlimited number of linear and non-linear equality and inequality constraints – a perfect fit for engineering design optimization scenarios. The code was developed with rapid performance and low memory overhead in mind, allowing integration into wide range of projects.
+My header file, located at [include/genetic_optimisation.h](https://github.com/harshabose/genetic_optimisation/blob/main/include/genetic_optimisation.h), overcomes these challenges. It empowers you with the ability to handle any number of optimization variables, each with different data types. Moreover, it seamlessly accommodates an unlimited number of linear and non-linear equality and inequality constraints – a perfect fit for engineering design optimization scenarios. The code was developed with rapid performance and low memory overhead in mind, allowing integration into wide range of projects.
 
 The implementation is user-friendly – just copy and paste the file into your project directory, and include it in your code.
 
