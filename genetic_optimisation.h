@@ -15,6 +15,8 @@
 #include <vector>
 #include <array>
 #include <numeric>
+#include <limits>
+#include <cmath>
 // #include <type_traits>
 #include <functional>
 #include <random>
@@ -170,7 +172,7 @@ public:
             this->crossover_probability = randomiser.get_random_value(static_cast<float>(0), static_cast<float>(1));
         } else this->crossover_probability = IN_CROSSOVER_PROBABILITY;
 
-        if (this->mutation_probability + this->crossover_probability > 1) {
+        if (this->mutation_probability + this->crossover_probability != 1) {
             this->mutation_probability = 1 - this->crossover_probability;
         }
     }
@@ -181,7 +183,7 @@ public:
             this->mutation_probability = randomiser.get_random_value(static_cast<float>(0), static_cast<float>(1));
         } else this->mutation_probability = IN_MUTATION_PROBABILITY;
 
-        if (this->mutation_probability + this->crossover_probability > 1) {
+        if (this->mutation_probability + this->crossover_probability != 1) {
             this->crossover_probability = 1 - this->mutation_probability;
         }
     }
@@ -199,15 +201,19 @@ public:
         this->current_generation = 1;
         std::size_t improvement_counter = 0;
         this->generate_population();
+        if (IN_SEARCH_SPACE_EVAL > 0) {
+            this->chromosome_table.at(0) = this->optimal_point;
+            this->fitness_table.at(0) = this->optimal_fitness;
+        }
         return_type old_optimal_fitness = this->optimal_fitness;
         do {
             VERBOSE_PRINT("@ ITERATION: " << this->current_generation << "...");
             if (this->survivor_selector(this->rank_chromosome_table())) improvement_counter++;
             else improvement_counter = 0;
-            VERBOSE_PRINT("TOP FITNESS VALUE: " << this->fitness_table[0] << "..." << "\n");
+            VERBOSE_PRINT("TOP FITNESS VALUE: " << this->fitness_table.at(0) << "..." << "\n");
         } while (this->current_generation++ < this->max_eval && (improvement_counter < this->max_no_improvement_count));
-        this->optimal_point = this->chromosome_table[0];
-        this->optimal_fitness = this->fitness_table[0];
+        this->optimal_point = this->chromosome_table.at(0);
+        this->optimal_fitness = this->fitness_table.at(0);
 
         VERBOSE_PRINT("TERMINATION CRITERIA HIT...");
         if (this->current_generation >= this->max_eval) VERBOSE_PRINT("MAX EVAL CRITERIA HIT...");
@@ -406,8 +412,9 @@ protected:
                     (get_penalty_at.template operator()<i>(),...);
                 };
                 get_penalty_.operator()(std::index_sequence_for<constraint_func_types...>{});
-                this->penalty = static_cast<double>(current_gen) /static_cast<double>(max_eval) * this->penalty * this->penalty;
-                if(this->penalty > 0) VERBOSE_PRINT("ONE OR MORE CONSTRAINTS VIOLATED. PENALTY of " << this->penalty << " introduced");
+                // if (this->penalty > 0) VERBOSE_PRINT(this->penalty);
+                this->penalty = static_cast<double>(current_gen) * 100000000000 * this->penalty * this->penalty;
+                // if(this->penalty > 0) VERBOSE_PRINT("ONE OR MORE CONSTRAINTS VIOLATED. PENALTY of " << this->penalty << " introduced");
             } catch (std::exception &e) {
                 std::cerr << "Error while calculating constraint penalty..." << e.what() << std::endl;
                 std::cerr << "Ignoring constraints for current generation..." << std::endl;
@@ -446,12 +453,12 @@ private:
     std::tuple<args_type...> lower_bounds{}, upper_bounds{};
     size_t max_eval = 10000;
     return_type search_space_reduction_fitness_tolerance;
-    size_t max_no_improvement_count = 100;
+    size_t max_no_improvement_count = 2000;
     float search_space_reduction_rate = 0.2;
     std::size_t search_space_reduction_eval{};
     bool minimise = true;
     bool search_space_reduction = false;
-    float crossover_probability = 0.9f, mutation_probability = 0.1f;
+    float crossover_probability = 0.6f, mutation_probability = 0.4f;
     constraint_manager_base* constraint_manager_ = nullptr;    //intended to be used for "constraint_manager"
     bool constraints_on = false;
     std::size_t current_generation = 1;
@@ -467,10 +474,22 @@ private:
                 (insert_random_value.template operator()<indices>(), ...);
             };
 
+            auto print_chromosome = [this] <std::size_t... i> (auto& chromosome, std::index_sequence<i...>) {
+                auto print_at = [this] <std::size_t i_> (auto& chromosome) {
+                    std::cout << std::get<i_>(chromosome);
+                    if (i_ < this->population_size - 1) std::cout << ", ";
+                };
+                (print_at.template operator()<i>(chromosome),...);
+            };
+
             std::size_t i = 0;
             for (auto& chromosome : this->chromosome_table) {
                 update_tuple(chromosome, std::index_sequence_for<args_type...>{});
                 this->fitness_table.at(i++) = this->get_fit_for_chromosome(chromosome);
+                std::cout << "created chromosome " << i << " :";
+                print_chromosome (chromosome, std::index_sequence_for<args_type...>{});
+                std::cout << "fitness: " << this->fitness_table.at(i - 1) << std::endl;
+
             }
         } catch (std::exception& e) {
             std::cerr << "ERROR: " << e.what() << std::endl;
@@ -480,8 +499,13 @@ private:
 
     [[nodiscard]] return_type get_fit_for_chromosome (std::tuple<args_type...> &chromosome) {
         try {
-            if (this->constraints_on) this->constraint_manager_->get_penalty(chromosome, this->max_eval, this->current_generation);
-            return std::apply(this->objective_function, chromosome) + (this->constraints_on ? this->constraint_manager_->penalty : 0);
+            return_type fitness = std::apply(this->objective_function, chromosome);
+            if (this->constraints_on) {
+                this->constraint_manager_->get_penalty(chromosome, this->max_eval, this->current_generation);
+                fitness += this->constraint_manager_->penalty;
+            }
+            return std::isnan(fitness) ? std::numeric_limits<return_type>::max() : fitness;
+
         } catch (std::exception &e) {
             std::cerr << "Error when calculating fit. " << e.what() << std::endl;
             throw;
