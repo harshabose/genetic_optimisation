@@ -9,7 +9,7 @@ The implementation is user-friendly – just copy and paste the file into your p
 
 The tool has undergone rigorous testing on various benchmark optimization test functions, including the Rastrigin and Ackley functions with accurate convergence achieved within a few hundred iterations, with a tolerance of 0.00001.
 
-Additionally, the tool has been applied to real-world engineering challenges - conceptual optimization tasks of propulsion system configuration and propeller design of eVTOL in climb segment. ~~The outcomes are documented for your reference.~~ (document removed for condidentiality, the [propulsion system analysis](https://github.com/harshabose/propulsion_system_analysis) tool could be found in the link and a test case is given below)
+Additionally, the tool has been applied to real-world engineering challenges - conceptual optimization tasks of propulsion system configuration and propeller design of eVTOL in climb segment. ~~The outcomes are documented for your reference.~~ (document removed for condidentiality, the [propulsion system analysis](https://github.com/harshabose/propulsion_system_analysis) tool could be found in the link and a test case result is given below)
 
 ![Test Propeller Genetic Optimisation](https://github.com/harshabose/genetic_optimisation/assets/127072856/ad16e6e9-ab2a-46c2-b095-7606cd6f9573)
 **Test: Propeller radius and chord optimisation for a given atmospheric and operational conditions with non-linear geometric constraints**
