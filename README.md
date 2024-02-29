@@ -11,7 +11,8 @@ The tool has undergone rigorous testing on various benchmark optimization test f
 
 Additionally, the tool has been applied to real-world engineering challenges - conceptual optimization tasks of propulsion system configuration and propeller design of eVTOL in climb segment. ~~The outcomes are documented for your reference.~~ (document removed for condidentiality, the [propulsion system analysis](https://github.com/harshabose/propulsion_system_analysis) tool could be found in the link and a test case is given below)
 
-[https://github.com/harshabose/genetic_optimisation/blob/b20ad53db3ee4b89fa86efee5ebad1a261825045/Test%20Propeller%20Genetic%20Optimisation.png]
+![Test Propeller Genetic Optimisation](https://github.com/harshabose/genetic_optimisation/assets/127072856/ad16e6e9-ab2a-46c2-b095-7606cd6f9573)
+
 
 
 In future version, I will be integrating my [lightweight C++ thread manager](https://github.com/harshabose/thread_manager) tool to genetic optimisation allowing for even more performance and speed.
